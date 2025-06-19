@@ -66,7 +66,42 @@ func NewClient(config *Config) *Client {
 }
 
 // DoRequest 执行HTTP请求
-func (c *Client) DoRequest(method, urlStr string, params map[string]string) ([]byte, error) {
+func (c *Client) DoRequest(method, path string, params map[string]string) ([]byte, error) {
+	// 检查是否有可用的BaseURL
+	if len(c.Config.BaseURLs) == 0 {
+		return nil, errors.New("no base URLs configured")
+	}
+
+	// 保存最后一个错误，如果所有地址都失败，则返回此错误
+	var lastErr error
+
+	// 依次尝试所有BaseURL
+	for _, baseURL := range c.Config.BaseURLs {
+		// 构建完整URL
+		fullURL := baseURL + path
+
+		// 尝试使用当前BaseURL发送请求
+		respBody, err := c.doRequestWithURL(method, fullURL, params)
+		if err != nil {
+			// 记录错误并继续尝试下一个URL
+			lastErr = fmt.Errorf("request to %s failed: %w", baseURL, err)
+			continue
+		}
+
+		// 请求成功，返回结果
+		return respBody, nil
+	}
+
+	// 所有地址都失败，返回最后一个错误
+	if lastErr != nil {
+		return nil, fmt.Errorf("all base URLs failed: %w", lastErr)
+	}
+
+	return nil, errors.New("no base URLs available")
+}
+
+// doRequestWithURL 使用指定URL执行HTTP请求
+func (c *Client) doRequestWithURL(method, urlStr string, params map[string]string) ([]byte, error) {
 	var req *http.Request
 	var err error
 

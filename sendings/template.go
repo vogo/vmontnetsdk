@@ -104,8 +104,7 @@ func (s *SendingService) SendTemplate(req *TemplateSendRequest) (*SendTemplateRe
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathSendTemplate
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathSendTemplate, params)
 	if err != nil {
 		return nil, err
 	}

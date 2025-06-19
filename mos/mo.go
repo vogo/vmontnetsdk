@@ -58,8 +58,7 @@ func (s *MoService) GetMo(maxCount int) (*GetMoResponse, error) {
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathGetMo
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathGetMo, params)
 	if err != nil {
 		return nil, err
 	}

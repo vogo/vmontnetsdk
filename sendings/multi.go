@@ -94,8 +94,7 @@ func (s *SendingService) SendMulti(req *MultiSendRequest) (*SendMultiResponse, e
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathSendMulti
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathSendMulti, params)
 	if err != nil {
 		return nil, err
 	}

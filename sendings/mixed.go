@@ -95,8 +95,7 @@ func (s *SendingService) SendMixed(req *MixedSendRequest) (*SendMixedResponse, e
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathSendMixed
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathSendMixed, params)
 	if err != nil {
 		return nil, err
 	}

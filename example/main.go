@@ -29,12 +29,23 @@ import (
 )
 
 func main() {
-	// 创建配置
+	// 创建配置（支持多个API地址，第一个为主地址，其他为备份地址）
 	config := cores.NewConfig(
-		vos.EnsureEnvString("MONTNETS_API_URL"),
+		[]string{
+			vos.EnsureEnvString("MONTNETS_API_URL"),  // 主地址
+			vos.EnsureEnvString("MONTNETS_API_URL2"), // 备份地址
+			vos.EnsureEnvString("MONTNETS_API_URL3"), // 备份地址
+		},
 		vos.EnsureEnvString("MONTNETS_ACCOUNT"),
 		vos.EnsureEnvString("MONTNETS_PASSWORD"),
 	)
+
+	// 也可以使用兼容旧版本的方式创建配置（仅支持单个地址）
+	// config := cores.NewConfigWithSingleURL(
+	// 	vos.EnsureEnvString("MONTNETS_API_URL"),
+	// 	vos.EnsureEnvString("MONTNETS_ACCOUNT"),
+	// 	vos.EnsureEnvString("MONTNETS_PASSWORD"),
+	// )
 	// 设置使用明文密码
 	config.UsePlainPwd = false
 	// 设置业务类型

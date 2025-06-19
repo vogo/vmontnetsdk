@@ -83,8 +83,7 @@ func (s *SendingService) SendSingle(req *SingleSendRequest) (*SendSingleResponse
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathSendSingle
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathSendSingle, params)
 	if err != nil {
 		return nil, err
 	}

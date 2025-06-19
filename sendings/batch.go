@@ -82,8 +82,7 @@ func (s *SendingService) SendBatch(req *BatchSendRequest) (*SendBatchResponse, e
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathSendBatch
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathSendBatch, params)
 	if err != nil {
 		return nil, err
 	}

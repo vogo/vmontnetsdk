@@ -59,8 +59,7 @@ func (s *ReportService) GetRpt(maxCount int) (*GetRptResponse, error) {
 	}
 
 	// 发送请求
-	apiURL := s.client.Config.BaseURL + cores.PathGetReport
-	respBody, err := s.client.DoRequest("POST", apiURL, params)
+	respBody, err := s.client.DoRequest("POST", cores.PathGetReport, params)
 	if err != nil {
 		return nil, err
 	}

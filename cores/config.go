@@ -25,8 +25,8 @@ import (
 
 // Config 梦网短信配置
 type Config struct {
-	// API基础URL
-	BaseURL string
+	// API基础URL列表，第一个为主地址，其他为备份地址
+	BaseURLs []string
 	// 用户ID
 	UserID string
 	// 密码
@@ -44,22 +44,36 @@ type Config struct {
 }
 
 // NewConfig 创建新的配置（使用用户ID和密码）
-func NewConfig(baseURL, userID, password string) *Config {
+// baseURLs 参数可以传入多个URL，第一个为主地址，其他为备份地址
+func NewConfig(baseURLs []string, userID, password string) *Config {
 	return &Config{
-		BaseURL:     baseURL,
+		BaseURLs:    baseURLs,
 		UserID:      userID,
 		Password:    password,
 		FixedString: "00000000",
 	}
 }
 
+// NewConfigWithSingleURL 创建新的配置（使用单个URL、用户ID和密码）
+// 为了兼容旧版本API
+func NewConfigWithSingleURL(baseURL, userID, password string) *Config {
+	return NewConfig([]string{baseURL}, userID, password)
+}
+
 // NewConfigWithAPIKey 创建新的配置（使用API密钥）
-func NewConfigWithAPIKey(baseURL, apiKey string) *Config {
+// baseURLs 参数可以传入多个URL，第一个为主地址，其他为备份地址
+func NewConfigWithAPIKey(baseURLs []string, apiKey string) *Config {
 	return &Config{
-		BaseURL:     baseURL,
+		BaseURLs:    baseURLs,
 		APIKey:      apiKey,
 		FixedString: "00000000",
 	}
+}
+
+// NewConfigWithAPIKeyAndSingleURL 创建新的配置（使用单个URL和API密钥）
+// 为了兼容旧版本API
+func NewConfigWithAPIKeyAndSingleURL(baseURL, apiKey string) *Config {
+	return NewConfigWithAPIKey([]string{baseURL}, apiKey)
 }
 
 // EncodeContent URL编码内容
@@ -90,4 +104,13 @@ func ValidateMobiles(mobiles string) bool {
 		}
 	}
 	return true
+}
+
+// GetBaseURL 获取当前可用的BaseURL
+// 默认返回第一个URL（主地址）
+func (c *Config) GetBaseURL() string {
+	if len(c.BaseURLs) == 0 {
+		return ""
+	}
+	return c.BaseURLs[0]
 }

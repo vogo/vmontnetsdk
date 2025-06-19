@@ -43,8 +43,7 @@ func (s *BalanceService) GetBalance() (*GetBalanceResponse, error) {
 	}
 
 	// 发送请求
-	apiURL := s.Client.Config.BaseURL + cores.PathGetBalance
-	respBody, err := s.Client.DoRequest("POST", apiURL, params)
+	respBody, err := s.Client.DoRequest("POST", cores.PathGetBalance, params)
 	if err != nil {
 		return nil, err
 	}
