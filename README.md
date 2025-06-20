@@ -61,6 +61,7 @@ func main() {
 	config.UsePlainPwd = false  // 使用MD5加密密码（默认）
 	config.SvrType = "0"       // 设置业务类型
 	config.Exno = "0006"       // 设置扩展号
+	config.Signature = "【梦网科技】" // 短信签名，如果设置，所有短信内容前会自动添加该签名前缀
 
 	// 创建客户端
 	client := cores.NewClient(config)
@@ -111,62 +112,48 @@ func main() {
 
 ### Config 配置项
 
-| 配置项 | 类型 | 说明 |
-| --- | --- | --- |
-| BaseURLs | []string | API基础URL列表（包含协议、域名和端口），第一个为主地址，其他为备份地址 |
-| UserID | string | 用户账号 |
-| Password | string | 用户密码 |
-| APIKey | string | APIKey (如果使用APIKey鉴权方式,则UserID和Password可不填) |
-| UsePlainPwd | bool | 是否使用明文密码 |
-| FixedString | string | 固定字符串,用于MD5加密 |
-| SvrType | string | 业务类型 |
-| Exno | string | 扩展号 |
+| 配置项 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| BaseURLs | []string | 是 | API基础URL列表，第一个为主地址，其他为备份地址 |
+| UserID | string | 是* | 用户ID（*使用API密钥时可不填） |
+| Password | string | 是* | 密码（*使用API密钥时可不填） |
+| APIKey | string | 是* | API密钥（*使用用户ID和密码时可不填） |
+| UsePlainPwd | bool | 否 | 是否使用明文密码，默认为false（使用MD5加密） |
+| FixedString | string | 否 | 固定字符串，默认为"00000000" |
+| SvrType | string | 否 | 业务类型 |
+| Exno | string | 否 | 扩展号 |
+| Signature | string | 否 | 短信签名，如果设置，所有短信内容前会自动添加该签名前缀 |
 
 ## 鉴权方式
 
-### 1. 账号+密码的MD5加密鉴权
+### 用户名密码鉴权
 
 ```go
-// 支持多个API地址（主地址+备份地址）
 config := cores.NewConfig(
-	[]string{"https://api.montnets.com", "https://api2.montnets.com"},
-	"J10003",
-	"111111",
+    []string{"https://api.montnets.com"},
+    "J00000",
+    "123456",
 )
-config.UsePlainPwd = false  // 使用MD5加密密码（默认）
-
-// 兼容旧版本（仅支持单个地址）
-// config := cores.NewConfigWithSingleURL("https://api.montnets.com", "J10003", "111111")
 ```
 
-### 2. 账号+密码的明文鉴权
+### API密钥鉴权
 
 ```go
-// 支持多个API地址（主地址+备份地址）
-config := cores.NewConfig(
-	[]string{"https://api.montnets.com", "https://api2.montnets.com"},
-	"J10003",
-	"111111",
-)
-config.UsePlainPwd = true  // 使用明文密码
-
-// 兼容旧版本（仅支持单个地址）
-// config := cores.NewConfigWithSingleURL("https://api.montnets.com", "J10003", "111111")
-// config.UsePlainPwd = true
-```
-
-### 3. APIKey鉴权
-
-```go
-// 支持多个API地址（主地址+备份地址）
 config := cores.NewConfigWithAPIKey(
-	[]string{"https://api.montnets.com", "https://api2.montnets.com"},
-	"abade5589e2798f82f006bbc36d269ce",
+    []string{"https://api.montnets.com"},
+    "9SDK-EMY-0999-BDSKS",
 )
-
-// 兼容旧版本（仅支持单个地址）
-// config := cores.NewConfigWithAPIKeyAndSingleURL("https://api.montnets.com", "abade5589e2798f82f006bbc36d269ce")
 ```
+
+## 短信签名
+
+短信签名是短信内容的前缀，通常用于标识发送方，如【梦网科技】。SDK支持自动添加短信签名前缀，只需在配置中设置 `Signature` 字段：
+
+```go
+config.Signature = "【梦网科技】"
+```
+
+设置签名后，SDK会自动检查短信内容是否已包含签名，如果没有，会自动在内容前添加签名前缀。这适用于所有发送方式（单发、群发、个性化发送等）。
 
 ## 目录结构
 

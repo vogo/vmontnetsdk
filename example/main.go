@@ -49,6 +49,8 @@ func main() {
 	config.SvrType = "0"
 	// 设置扩展号
 	config.Exno = ""
+	// 设置短信签名
+	config.Signature = "【梦网科技】"
 
 	// 创建客户端
 	client := cores.NewClient(config)

@@ -62,6 +62,8 @@ func (s *SendingService) SendMulti(req *MultiSendRequest) (*SendMultiResponse, e
 
 	var mobileContents []MobileContent
 	for mobile, content := range req.MobileContents {
+		// 应用签名前缀
+		content = s.client.Config.ApplySignature(content)
 		mobileContents = append(mobileContents, MobileContent{
 			Mobile:  mobile,
 			Content: cores.EncodeContent(content),

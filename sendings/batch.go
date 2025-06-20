@@ -62,7 +62,9 @@ func (s *SendingService) SendBatch(req *BatchSendRequest) (*SendBatchResponse, e
 
 	// 添加必要参数
 	params["mobile"] = req.Mobiles
-	params["content"] = cores.EncodeContent(req.Content)
+	// 应用签名前缀
+	content := s.client.Config.ApplySignature(req.Content)
+	params["content"] = cores.EncodeContent(content)
 
 	// 添加可选参数
 	if s.client.Config.SvrType != "" {

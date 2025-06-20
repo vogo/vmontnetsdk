@@ -41,6 +41,8 @@ type Config struct {
 	SvrType string
 	// 扩展号
 	Exno string
+	// 签名
+	Signature string
 }
 
 // NewConfig 创建新的配置（使用用户ID和密码）
@@ -113,4 +115,18 @@ func (c *Config) GetBaseURL() string {
 		return ""
 	}
 	return c.BaseURLs[0]
+}
+
+// ApplySignature 应用短信签名
+// 如果配置了签名，会在短信内容前添加签名前缀
+func (c *Config) ApplySignature(content string) string {
+	if c.Signature == "" {
+		return content
+	}
+	// 检查内容是否已经包含签名
+	if len(content) >= len(c.Signature) && content[:len(c.Signature)] == c.Signature {
+		return content
+	}
+	// 添加签名前缀
+	return c.Signature + content
 }

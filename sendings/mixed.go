@@ -73,6 +73,8 @@ func (s *SendingService) SendMixed(req *MixedSendRequest) (*SendMixedResponse, e
 	// 对内容进行编码并拼接
 	encodedContents := make([]string, len(req.Contents))
 	for i, content := range req.Contents {
+		// 应用签名前缀
+		content = s.client.Config.ApplySignature(content)
 		encodedContents[i] = cores.EncodeContent(content)
 	}
 	params["content"] = strings.Join(encodedContents, ",")
