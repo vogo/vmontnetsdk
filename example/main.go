@@ -20,6 +20,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/vogo/vmontnetsdk/balances"
 	"github.com/vogo/vmontnetsdk/cores"
@@ -29,13 +30,9 @@ import (
 )
 
 func main() {
-	// 创建配置（支持多个API地址，第一个为主地址，其他为备份地址）
+	urlstr := vos.EnsureEnvString("MONTNETS_API_URL")
 	config := cores.NewConfig(
-		[]string{
-			vos.EnsureEnvString("MONTNETS_API_URL"),  // 主地址
-			vos.EnsureEnvString("MONTNETS_API_URL2"), // 备份地址
-			vos.EnsureEnvString("MONTNETS_API_URL3"), // 备份地址
-		},
+		strings.Split(urlstr, ","),
 		vos.EnsureEnvString("MONTNETS_ACCOUNT"),
 		vos.EnsureEnvString("MONTNETS_PASSWORD"),
 	)
