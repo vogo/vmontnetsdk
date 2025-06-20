@@ -193,6 +193,32 @@ config := cores.NewConfigWithAPIKey(
   - `balance.go`: 余额查询实现
 - `example/`: 使用示例
 
+## 参与贡献
+
+我们非常欢迎您参与贡献，帮助我们改进这个SDK！
+
+### 如何贡献
+
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交您的更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 提交 Pull Request
+
+### 问题反馈
+
+如果您在使用过程中遇到任何问题，或者有任何建议和想法，欢迎通过以下方式反馈：
+
+- 提交 [GitHub Issues](https://github.com/vogo/vmontnetsdk/issues)
+- 在 Pull Request 中详细描述您的改进建议
+
+### 贡献指南
+
+- 请确保您的代码符合 Go 语言规范和项目的代码风格
+- 添加必要的测试用例
+- 更新相关文档
+- 保持代码简洁、清晰，并添加必要的注释
+
 ## 许可证
 
 [Apache License 2.0](LICENSE)
