@@ -30,11 +30,11 @@ type AuthType int
 
 const (
 	// AuthTypeMD5 MD5加密鉴权
-	AuthTypeMD5 AuthType = iota
+	AuthTypeMD5 AuthType = 0
 	// AuthTypePlain 明文鉴权
-	AuthTypePlain
+	AuthTypePlain AuthType = 1
 	// AuthTypeAPIKey APIKey鉴权
-	AuthTypeAPIKey
+	AuthTypeAPIKey AuthType = 2
 )
 
 // GetTimestamp 获取时间戳,格式为MMDDHHMMSS

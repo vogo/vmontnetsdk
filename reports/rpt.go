@@ -26,13 +26,22 @@ import (
 
 // RptItem 状态报告项
 type RptItem struct {
-	Mobile    string `json:"mobile" comment:"手机号码"`
-	MsgID     int64  `json:"msgid" comment:"平台流水号:对应下行请求返回结果中的msgid"`
-	Status    int    `json:"status" comment:"接收状态:0-成功,非0-失败"`
-	ReceTime  string `json:"recvtime" comment:"状态报告返回时间,格式:YYYY-MM-DD HH:MM:SS"`
-	NotifyURL string `json:"notifyurl" comment:"通知URL"`
-	CustID    string `json:"custid,omitempty" comment:"用户自定义流水号:对应下行请求时填写的custid"`
-	ExData    string `json:"exdata,omitempty" comment:"下行时填写的扩展数据"`
+	MsgID       int64  `json:"msgid" comment:"平台流水号:对应下行请求返回结果中的msgid,允许出现负数"`
+	CustID      string `json:"custid,omitempty" comment:"用户自定义流水号:对应下行请求时填写的custid"`
+	PkNum       int    `json:"pknum" comment:"当前条数"`
+	PkTotal     int    `json:"pktotal" comment:"总条数"`
+	Mobile      string `json:"mobile" comment:"手机号码"`
+	CountryCode int    `json:"countrycode" comment:"手机号的国际区号:-1表示无效号码"`
+	SpNo        string `json:"spno" comment:"完整的通道号"`
+	ExNo        string `json:"exno" comment:"下行时填写的exno"`
+	STime       string `json:"stime" comment:"状态报告对应的下行发送时间,格式:YYYY-MM-DD HH:MM:SS"`
+	RTime       string `json:"rtime" comment:"状态报告返回时间,格式:YYYY-MM-DD HH:MM:SS"`
+	Status      int    `json:"status" comment:"接收状态:0-成功,非0-失败"`
+	ErrCode     string `json:"errcode" comment:"状态报告错误代码"`
+	ErrDesc     string `json:"errdesc" comment:"状态报告错误代码的描述"`
+	ExData      string `json:"exdata,omitempty" comment:"下行时填写的exdata"`
+	SmsType     string `json:"smstype" comment:"短信发送类型:0-短信,8-短转AIM"`
+	RptType     string `json:"rpttype" comment:"smstype为0时固定为1;smstype为8时,1-短信通知状态报告,2-AIM解析状态报告"`
 }
 
 // GetRptResponse 状态报告查询响应

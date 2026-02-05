@@ -18,6 +18,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -49,8 +50,8 @@ func main() {
 	config.SvrType = "0"
 	// 设置扩展号
 	config.Exno = ""
-	// 设置短信签名
-	config.Signature = "【梦网科技】"
+	// 设置短信签名 【梦网科技】
+	config.Signature = ""
 
 	// 创建客户端
 	client := cores.NewClient(config)
@@ -83,8 +84,9 @@ func main() {
 	} else {
 		fmt.Printf("成功获取状态报告,共 %d 条\n", len(rptResp.Rpts))
 		for i, rpt := range rptResp.Rpts {
-			fmt.Printf("报告 #%d: 手机号=%s, 状态=%d, 消息ID=%d\n",
-				i+1, rpt.Mobile, rpt.Status, rpt.MsgID)
+			rptJson, _ := json.Marshal(rpt)
+			fmt.Printf("报告 #%d: %s\n",
+				i+1, string(rptJson))
 		}
 	}
 
