@@ -57,7 +57,7 @@ func (s *BalanceService) GetBalance() (*GetBalanceResponse, error) {
 
 	// 检查响应状态
 	if resp.Result != 0 {
-		desc, _ := cores.DecodeContent(resp.Desc)
+		desc := cores.DecodeContent(resp.Desc)
 		return &resp, fmt.Errorf("API error: code=%d, desc=%s", resp.Result, desc)
 	}
 

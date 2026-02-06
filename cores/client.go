@@ -180,7 +180,7 @@ func (c *Client) ParseCommonResponse(respBody []byte) (*CommonResponse, error) {
 // CheckResponse 检查响应是否成功
 func (c *Client) CheckResponse(resp *CommonResponse) error {
 	if resp.Result != 0 {
-		desc, _ := DecodeContent(resp.Desc)
+		desc := DecodeContent(resp.Desc)
 		return fmt.Errorf("API error: code=%d, desc=%s", resp.Result, desc)
 	}
 	return nil

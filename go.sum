@@ -1,2 +1,4 @@
 github.com/vogo/vogo v0.0.0-20250616054728-98448017d355 h1:c2iUM4+Ac1iKuecre3WncLdycbqQ9AmZ7Q5X1esqdFk=
 github.com/vogo/vogo v0.0.0-20250616054728-98448017d355/go.mod h1:gaCplto8XOVoHbN9nAGpEnqDT1s6hnNbfDpH0acra9c=
+golang.org/x/text v0.33.0 h1:B3njUFyqtHDUI5jMn1YIr5B0IE2U0qck04r6d4KPAxE=
+golang.org/x/text v0.33.0/go.mod h1:LuMebE6+rBincTi9+xWTY8TztLzKHc/9C1uBCG27+q8=

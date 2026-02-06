@@ -21,6 +21,10 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"unicode/utf8"
+
+	"github.com/vogo/vogo/vlog"
+	"golang.org/x/text/encoding/simplifiedchinese"
 )
 
 // Config 梦网短信配置
@@ -84,8 +88,25 @@ func EncodeContent(content string) string {
 }
 
 // DecodeContent URL解码内容
-func DecodeContent(content string) (string, error) {
-	return url.QueryUnescape(content)
+func DecodeContent(content string) string {
+	if content == "" {
+		return ""
+	}
+
+	str, err := url.QueryUnescape(content)
+	if err != nil {
+		vlog.Errorf("DecodeContent error | content: %s | err: %v ", content, err)
+		return content
+	}
+
+	if !utf8.ValidString(str) {
+		decoded, err := simplifiedchinese.GBK.NewDecoder().String(str)
+		if err == nil {
+			return decoded
+		}
+	}
+
+	return str
 }
 
 // ValidateMobile 验证手机号码
